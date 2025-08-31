@@ -1,0 +1,17 @@
+{
+  "comparative.genomics.title": "Comparative Genomics",
+  "comparative.genomics.login": "Login",
+  "comparative.genomics.signup": "Sign Up",
+  "comparative.genomics.search": "Search...",
+  "comparative.genomics.tools": "Genomic Analysis Tools",
+  "comparative.genomics.tools.description": "Comprehensive suite of tools for comparative genomics, sequence analysis, and evolutionary studies",
+  "comparative.genomics.summary.card.title": "Research Summary",
+  "comparative.genomics.summary.card.description": "Overview of our genomics research database",
+  "comparative.genomics.footer.about": "About",
+  "comparative.genomics.footer.questions": "Questions",
+  "comparative.genomics.search.categories": "Search Categories",
+  "comparative.genomics.search.genomes": "Genomes",
+  "comparative.genomics.search.biosamples": "Biosamples",
+  "comparative.genomics.search.experiments": "Experiments",
+  "comparative.genomics.shared.back.button": "← Back to Home"
+}
