@@ -53,23 +53,6 @@ export const MenuIcon = styled.span`
   font-size: 20px;
 `;
 
-export const MenuAdditionalInfo = styled.span`
-  font-size: 20px;
-  margin-left: auto;
-`;
-
-export const Tooltip = styled.div`
-  position: absolute;
-  background: #111;
-  color: #fff;
-  padding: 6px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  z-index: 10;
-`;
-
 export const SearchArea = styled.div`
   flex: 1;
   display: flex;
