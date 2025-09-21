@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BackButton } from "../Shared/BackButtom.style";
 import {
@@ -55,9 +55,21 @@ const mockAnnotations = [
 const GenomeDetails: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleBack = () => {
-    navigate("/tools/search");
+    // Check if we came from a biosample page
+    const fromBiosample = location.state?.fromBiosample;
+    const biosampleId = location.state?.biosampleId;
+    
+    if (fromBiosample && biosampleId) {
+      navigate(`/biosamples/${biosampleId}`, { 
+        state: { returnedFromGenome: true },
+        replace: true 
+      });
+    } else {
+      navigate("/tools/search");
+    }
   };
 
   const formatDate = (dateString: string) => {

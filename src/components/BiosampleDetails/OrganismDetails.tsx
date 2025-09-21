@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BackButton } from "../Shared/BackButtom.style.tsx";
 import { useGET } from "../../hooks/useGet.tsx";
@@ -48,7 +48,9 @@ const mockBiosample = {
 const BiosampleDetails: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams<{ id: string }>();
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const biosampleUrl = useMemo(() => `${API_ENDPOINTS.BIOSAMPLES}${id}`, [id]);
 
@@ -67,8 +69,30 @@ const BiosampleDetails: React.FC = () => {
     }
   }, [biosampleError]);
 
+  // Reset component state when returning from navigation
+  useEffect(() => {
+    const isReturningFromNavigation = location.state?.returnedFromGenome;
+    
+    if (isReturningFromNavigation) {
+      // Reset any component state if needed
+      setRefreshKey(prev => prev + 1);
+      
+      // Clear the state to prevent repeated resets
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location.state, location.pathname, navigate]);
+
   const handleBack = () => {
     navigate("/tools/search");
+  };
+
+  const handleGenomeClick = (genomeId: string) => {
+    navigate(`/genomes/${genomeId}`, {
+      state: {
+        fromBiosample: true,
+        biosampleId: id
+      }
+    });
   };
 
   const formatDate = (dateString: string) => {
@@ -82,7 +106,7 @@ const BiosampleDetails: React.FC = () => {
   };
 
   return (
-    <BiosampleContainer>
+    <BiosampleContainer key={refreshKey}>
       <BiosampleHeader>
         <BackButton onClick={handleBack} style={{ marginTop: "2rem", marginBottom: "2rem" }}>
           {t("comparative.genomics.shared.back.button")}
@@ -131,7 +155,7 @@ const BiosampleDetails: React.FC = () => {
           <GenomesTitle>Associated Genomes ({biosampleResult.genomes.length})</GenomesTitle>
           <GenomesList>
             {biosampleResult.genomes.map((genome: any, index: number) => (
-              <GenomeItem key={index}>
+              <GenomeItem key={index} onClick={() => handleGenomeClick(genome.id)}>
                 <GenomeName>{genome.name}</GenomeName>
                 <GenomeId>Accession: {genome.accesionId}</GenomeId>
               </GenomeItem>
