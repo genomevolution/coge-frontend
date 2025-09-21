@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useMemo } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BackButton } from "../Shared/BackButtom.style";
 import {
@@ -25,6 +25,8 @@ import {
   DownloadButton,
   DownloadIcon
 } from "./GenomeDetails.styles.tsx";
+import { API_ENDPOINTS } from "../../config/api.ts";
+import { useGET } from "../../hooks/useGet.tsx";
 
 const mockGenome = {
   accesion_id: "CP123456.1",
@@ -33,39 +35,39 @@ const mockGenome = {
   created_at: "2023-06-01T10:30:00Z"
 };
 
-const mockAnnotations = [
-  {
-    name: "Prokka Annotation",
-    description: "Automated prokaryotic genome annotation using Prokka pipeline. Includes gene predictions, functional assignments, and metabolic pathway analysis."
-  },
-  {
-    name: "ResFinder Annotation",
-    description: "Antimicrobial resistance gene annotation using ResFinder database. Identified resistance genes for ampicillin, tetracycline, and streptomycin."
-  },
-  {
-    name: "PlasmidFinder Annotation",
-    description: "Plasmid replicon detection and classification. Identified IncFIB and IncFII plasmid replicons."
-  },
-  {
-    name: "VFDB Annotation",
-    description: "Virulence factor annotation using Virulence Factor Database. Identified 45 virulence-associated genes including type III secretion system components."
-  }
-];
-
 const GenomeDetails: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
+
+  const { id } = useParams<{ id: string }>();
+  const genomeUrl = useMemo(() => `${API_ENDPOINTS.GENOMES}${id}`, [id]);
+
+  const { result: genomeResult, error: genomeError, request: genomeRequest } = useGET(genomeUrl);
+
+  useEffect(() => {
+    if (id) {
+      genomeRequest();
+    }
+  }, [id]);
+
+
+  useEffect(() => {
+    if (genomeError) {
+      console.error('Error fetching genome:', genomeError);
+      console.error('Failed URL:', genomeUrl);
+    }
+  }, [genomeError]);
+
   const handleBack = () => {
-    // Check if we came from a biosample page
     const fromBiosample = location.state?.fromBiosample;
     const biosampleId = location.state?.biosampleId;
-    
+
     if (fromBiosample && biosampleId) {
-      navigate(`/biosamples/${biosampleId}`, { 
+      navigate(`/biosamples/${biosampleId}`, {
         state: { returnedFromGenome: true },
-        replace: true 
+        replace: true
       });
     } else {
       navigate("/tools/search");
@@ -82,22 +84,26 @@ const GenomeDetails: React.FC = () => {
     });
   };
 
-  const handleDownloadFasta = () => {
+  const handleDownloadFasta = async () => {
+    if (!genomeResult?.filePath) {
+      console.error('No file path available for download');
+      return;
+    }
 
-    const fastaContent = `>${mockGenome.accesion_id} ${mockGenome.name}
-ATGCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG
-ATGCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG
-ATGCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG`;
-
-    const blob = new Blob([fastaContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${mockGenome.accesion_id}.fasta`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    try {
+      const downloadUrl = `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult.filePath)}`;
+      
+      // Create a temporary anchor element to trigger download
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = `${genomeResult.accesionId || 'genome'}.fasta`;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
   };
 
   const handleDownloadGff3 = (annotationName: string) => {
@@ -129,30 +135,30 @@ ${mockGenome.accesion_id}	${annotationSource}	CDS	200	300	.	+	0	ID=CDS_002;Paren
           {t("comparative.genomics.shared.back.button")}
         </BackButton>
 
-        <GenomeTitle>{mockGenome.name}</GenomeTitle>
+        <GenomeTitle>{genomeResult?.name || "Loading..."}</GenomeTitle>
       </GenomeHeader>
 
       <GenomeInfo>
         <InfoSection>
           <InfoLabel>Accession ID:</InfoLabel>
-          <InfoValue>{mockGenome.accesion_id}</InfoValue>
+          <InfoValue>{genomeResult?.accesionId || "Loading..."}</InfoValue>
         </InfoSection>
 
         <InfoSection>
           <InfoLabel>Description:</InfoLabel>
-          <InfoValue>{mockGenome.description}</InfoValue>
+          <InfoValue>{genomeResult?.description || "Loading..."}</InfoValue>
         </InfoSection>
 
         <InfoSection>
           <InfoLabel>Created:</InfoLabel>
-          <InfoValue>{formatDate(mockGenome.created_at)}</InfoValue>
+          <InfoValue>{genomeResult?.createdAt ? formatDate(genomeResult.createdAt) : "Loading..."}</InfoValue>
         </InfoSection>
       </GenomeInfo>
 
-      <AnnotationsSection>
-        <AnnotationsTitle>Associated Annotations ({mockAnnotations.length})</AnnotationsTitle>
+      {genomeResult?.annotations && (<AnnotationsSection>
+        <AnnotationsTitle>Associated Annotations ({genomeResult.annotations.length})</AnnotationsTitle>
         <AnnotationsList>
-          {mockAnnotations.map((annotation, index) => (
+          {genomeResult.annotations.map((annotation: any, index: number) => (
             <AnnotationItem key={index}>
               <AnnotationContent>
                 <AnnotationName>{annotation.name}</AnnotationName>
@@ -166,17 +172,22 @@ ${mockGenome.accesion_id}	${annotationSource}	CDS	200	300	.	+	0	ID=CDS_002;Paren
             </AnnotationItem>
           ))}
         </AnnotationsList>
-      </AnnotationsSection>
+      </AnnotationsSection>)}
 
-      <DownloadSection>
-        <DownloadTitle>Download Files</DownloadTitle>
-        <DownloadButtons>
-          <DownloadButton onClick={handleDownloadFasta}>
-            <DownloadIcon>📄</DownloadIcon>
-            Download FASTA
-          </DownloadButton>
-        </DownloadButtons>
-      </DownloadSection>
+
+      {genomeResult?.filePath && (
+        <DownloadSection>
+          <DownloadTitle>Download Files</DownloadTitle>
+          <DownloadButtons>
+            <DownloadButton onClick={handleDownloadFasta}>
+              <DownloadIcon>📄</DownloadIcon>
+              Download FASTA
+            </DownloadButton>
+          </DownloadButtons>
+        </DownloadSection>
+      )}
+
+
     </GenomeContainer>
   );
 };

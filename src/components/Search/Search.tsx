@@ -58,7 +58,7 @@ function parseResponse(
 
 const mapGenome = (genome: any) => {
   return {
-    id: genome.accesionId,
+    id: genome.id,
     name: genome.name,
     type: "genome",
   };

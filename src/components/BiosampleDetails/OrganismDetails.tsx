@@ -69,15 +69,13 @@ const BiosampleDetails: React.FC = () => {
     }
   }, [biosampleError]);
 
-  // Reset component state when returning from navigation
+
   useEffect(() => {
     const isReturningFromNavigation = location.state?.returnedFromGenome;
     
     if (isReturningFromNavigation) {
-      // Reset any component state if needed
       setRefreshKey(prev => prev + 1);
       
-      // Clear the state to prevent repeated resets
       navigate(location.pathname, { replace: true });
     }
   }, [location.state, location.pathname, navigate]);
