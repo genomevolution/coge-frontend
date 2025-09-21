@@ -74,12 +74,12 @@ const mapBiosample = (biosample: any) => {
 
 
 
-type menuItem = 'biosamples' | 'genomes' | 'experiments';
+type menuItem = 'organisms' | 'genomes' | 'experiments';
 
 const menuState = [
   {
-    key: "biosamples",
-    label: "comparative.genomics.search.biosamples",
+    key: "organisms",
+    label: "comparative.genomics.search.organisms",
     icon: "🦠",
     isOpen: false,
   },
@@ -101,7 +101,7 @@ const Search: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const [selectedMenu, setSelectedMenu] = useState<menuItem>("biosamples");
+  const [selectedMenu, setSelectedMenu] = useState<menuItem>("organisms");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentData, setCurrentData] = useState<SearchItem[]>([]);
@@ -115,7 +115,7 @@ const Search: React.FC = () => {
   useEffect(() => {
     if (selectedMenu === "genomes") {
       genomesRequest();
-    } else if (selectedMenu === "biosamples") {
+    } else if (selectedMenu === "organisms") {
       biosamplesRequest();
     } else if (selectedMenu === "experiments") {
       setCurrentData([]);
@@ -129,7 +129,7 @@ const Search: React.FC = () => {
   }, [genomesResult, selectedMenu]);
 
   useEffect(() => {
-    if (biosamplesResult && selectedMenu === "biosamples") {
+    if (biosamplesResult && selectedMenu === "organisms") {
       setCurrentData(parseResponse(biosamplesResult, "biosample"));
     }
   }, [biosamplesResult, selectedMenu]);

@@ -8,6 +8,8 @@ import {
   BiosampleContainer,
   BiosampleHeader,
   BiosampleTitle,
+  SpeciesName,
+  BiosampleName,
   BiosampleInfo,
   InfoSection,
   InfoLabel,
@@ -66,11 +68,11 @@ const BiosampleDetails: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  
+
   const biosampleUrl = useMemo(() => `${API_ENDPOINTS.BIOSAMPLES}${id}`, [id]);
-  
+
   const { result: biosampleResult, error: biosampleError, request: biosampleRequest } = useGET(biosampleUrl);
-  
+
   useEffect(() => {
     if (id) {
       biosampleRequest();
@@ -104,8 +106,16 @@ const BiosampleDetails: React.FC = () => {
         <BackButton onClick={handleBack} style={{ marginTop: "2rem", marginBottom: "2rem" }}>
           {t("comparative.genomics.shared.back.button")}
         </BackButton>
-        
-        <BiosampleTitle>{mockBiosample.name}</BiosampleTitle>
+
+        <BiosampleTitle>
+          <SpeciesName>{biosampleResult?.speciesName || "Loading..."}</SpeciesName>
+          {biosampleResult?.name && (
+            <>
+              {" - "}
+              <BiosampleName>{biosampleResult.name}</BiosampleName>
+            </>
+          )}
+        </BiosampleTitle>
       </BiosampleHeader>
 
       <BiosampleInfo>
@@ -135,18 +145,19 @@ const BiosampleDetails: React.FC = () => {
         </TimestampSection>
       </BiosampleInfo>
 
-
-      <GenomesSection>
-        <GenomesTitle>Associated Genomes ({mockGenomes.length})</GenomesTitle>
-        <GenomesList>
-          {mockGenomes.map((genome, index) => (
-            <GenomeItem key={index}>
-              <GenomeName>{genome.name}</GenomeName>
-              <GenomeId>Accession: {genome.accesion_id}</GenomeId>
-            </GenomeItem>
-          ))}
-        </GenomesList>
-      </GenomesSection>
+      {biosampleResult?.genomes && biosampleResult.genomes.length > 0 && (
+        <GenomesSection>
+          <GenomesTitle>Associated Genomes ({biosampleResult.genomes.length})</GenomesTitle>
+          <GenomesList>
+            {biosampleResult.genomes.map((genome: any, index: number) => (
+              <GenomeItem key={index}>
+                <GenomeName>{genome.name}</GenomeName>
+                <GenomeId>Accession: {genome.accesionId}</GenomeId>
+              </GenomeItem>
+            ))}
+          </GenomesList>
+        </GenomesSection>
+      )}
     </BiosampleContainer>
   );
 };

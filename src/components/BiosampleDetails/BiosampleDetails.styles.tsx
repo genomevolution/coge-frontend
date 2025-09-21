@@ -22,6 +22,14 @@ export const BiosampleTitle = styled.h1`
   line-height: 1.2;
 `;
 
+export const SpeciesName = styled.span`
+  font-style: italic;
+`;
+
+export const BiosampleName = styled.span`
+  font-style: normal;
+`;
+
 export const BiosampleInfo = styled.div`
   background-color: #f8f9fa;
   border: 1px solid #e9ecef;
