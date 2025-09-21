@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BackButton } from "../Shared/BackButtom.style";
@@ -14,16 +14,16 @@ import {
   AnnotationsTitle,
   AnnotationsList,
   AnnotationItem,
+  AnnotationContent,
   AnnotationName,
   AnnotationDescription,
+  AnnotationDownloadButton,
+  AnnotationDownloadIcon,
   DownloadSection,
   DownloadTitle,
   DownloadButtons,
   DownloadButton,
-  DownloadIcon,
-  AnnotationSelector,
-  SelectLabel,
-  SelectDropdown
+  DownloadIcon
 } from "./GenomeDetails.styles.tsx";
 
 const mockGenome = {
@@ -55,7 +55,6 @@ const mockAnnotations = [
 const GenomeDetails: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [selectedAnnotation, setSelectedAnnotation] = useState<string>(mockAnnotations[0].name);
 
   const handleBack = () => {
     navigate("/tools/search");
@@ -89,8 +88,8 @@ ATGCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG`;
     URL.revokeObjectURL(url);
   };
 
-  const handleDownloadGff3 = () => {
-    const annotationSource = selectedAnnotation?.replace(' Annotation', '').toLowerCase() || 'prokka';
+  const handleDownloadGff3 = (annotationName: string) => {
+    const annotationSource = annotationName.replace(' Annotation', '').toLowerCase();
 
     const gff3Content = `##gff-version 3
 ##source=${annotationSource}
@@ -143,8 +142,15 @@ ${mockGenome.accesion_id}	${annotationSource}	CDS	200	300	.	+	0	ID=CDS_002;Paren
         <AnnotationsList>
           {mockAnnotations.map((annotation, index) => (
             <AnnotationItem key={index}>
-              <AnnotationName>{annotation.name}</AnnotationName>
-              <AnnotationDescription>{annotation.description}</AnnotationDescription>
+              <AnnotationContent>
+                <AnnotationName>{annotation.name}</AnnotationName>
+                <AnnotationDescription>{annotation.description}</AnnotationDescription>
+              </AnnotationContent>
+              <AnnotationDownloadButton onClick={() => handleDownloadGff3(annotation.name)}>
+                <AnnotationDownloadIcon>
+                  <img src="/download-icon.svg" alt="Download" />
+                </AnnotationDownloadIcon>
+              </AnnotationDownloadButton>
             </AnnotationItem>
           ))}
         </AnnotationsList>
@@ -152,29 +158,10 @@ ${mockGenome.accesion_id}	${annotationSource}	CDS	200	300	.	+	0	ID=CDS_002;Paren
 
       <DownloadSection>
         <DownloadTitle>Download Files</DownloadTitle>
-
-        <AnnotationSelector>
-          <SelectLabel>Select annotation for GFF3 download:</SelectLabel>
-          <SelectDropdown
-            value={selectedAnnotation}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedAnnotation(e.target.value)}
-          >
-            {mockAnnotations.map((annotation, index) => (
-              <option key={index} value={annotation.name}>
-                {annotation.name}
-              </option>
-            ))}
-          </SelectDropdown>
-        </AnnotationSelector>
-
         <DownloadButtons>
           <DownloadButton onClick={handleDownloadFasta}>
             <DownloadIcon>📄</DownloadIcon>
             Download FASTA
-          </DownloadButton>
-          <DownloadButton onClick={handleDownloadGff3}>
-            <DownloadIcon>📋</DownloadIcon>
-            Download GFF3 ({selectedAnnotation.replace(' Annotation', '')})
           </DownloadButton>
         </DownloadButtons>
       </DownloadSection>

@@ -45,25 +45,6 @@ const mockBiosample = {
   species_name: "Salmonella enterica subsp. enterica serovar Typhimurium"
 };
 
-const mockGenomes = [
-  {
-    name: "Salmonella Typhimurium ST19 Complete Genome",
-    accesion_id: "CP123456.1"
-  },
-  {
-    name: "Salmonella Typhimurium ST19 Draft Assembly",
-    accesion_id: "CP123457.1"
-  },
-  {
-    name: "Salmonella Typhimurium ST19 Contigs",
-    accesion_id: "CP123458.1"
-  },
-  {
-    name: "Salmonella Typhimurium ST19 Scaffolds",
-    accesion_id: "CP123459.1"
-  }
-];
-
 const BiosampleDetails: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();

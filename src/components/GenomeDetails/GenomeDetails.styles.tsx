@@ -80,17 +80,18 @@ export const AnnotationsList = styled.div`
 `;
 
 export const AnnotationItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 1rem;
   background-color: #f8f9fa;
   border: 1px solid #dee2e6;
   border-radius: 6px;
   transition: all 0.2s;
+`;
 
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.lt_green};
-    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
-    background-color: white;
-  }
+export const AnnotationContent = styled.div`
+  flex: 1;
 `;
 
 export const AnnotationName = styled.h4`
@@ -156,40 +157,44 @@ export const DownloadIcon = styled.span`
   font-size: 16px;
 `;
 
-export const AnnotationSelector = styled.div`
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-`;
-
-export const SelectLabel = styled.label`
-  display: block;
-  font-weight: 600;
-  color: #495057;
-  font-size: 14px;
-  margin-bottom: 0.5rem;
-`;
-
-export const SelectDropdown = styled.select`
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  background-color: white;
-  font-size: 14px;
-  color: #495057;
+export const AnnotationDownloadButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: 2px solid ${({ theme }) => theme.colors.dark_green};
+  border-radius: 50%;
   cursor: pointer;
-  transition: border-color 0.2s;
-
-  &:focus {
-    outline: none;
-    border-color: ${({ theme }) => theme.colors.lt_green};
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
-  }
+  transition: all 0.2s;
+  color: ${({ theme }) => theme.colors.dark_green};
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.lt_green};
+    background-color: ${({ theme }) => theme.colors.dark_green};
+    color: white;
+    transform: scale(1.1);
+
+    img {
+      filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+
+export const AnnotationDownloadIcon = styled.div`
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    transition: filter 0.2s ease;
   }
 `;
