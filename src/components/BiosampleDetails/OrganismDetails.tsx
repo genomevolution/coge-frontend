@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { BackButton } from "../Shared/BackButtom.style";
-import { useGET } from "../../hooks/useGet";
-import { API_ENDPOINTS } from "../../config/api";
+import { BackButton } from "../Shared/BackButtom.style.tsx";
+import { useGET } from "../../hooks/useGet.tsx";
+import { API_ENDPOINTS } from "../../config/api.ts";
 import {
   BiosampleContainer,
   BiosampleHeader,
@@ -23,7 +23,7 @@ import {
   TimestampSection,
   TimestampLabel,
   TimestampValue
-} from "./BiosampleDetails.styles.tsx";
+} from "./OrganismDetails.styles.tsx";
 
 const mockBiosample = {
   id: "550e8400-e29b-41d4-a716-446655440000",

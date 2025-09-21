@@ -1,1 +1,1 @@
-export { default } from "./BiosampleDetails";
+export { default } from "./OrganismDetails";
