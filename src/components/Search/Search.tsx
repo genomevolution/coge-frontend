@@ -32,6 +32,7 @@ import { API_ENDPOINTS } from "../../config/api";
 interface SearchItem {
   id: string;
   name: string;
+  subname: string;
   type: "genome" | "biosample" | "experiment";
 }
 
@@ -60,6 +61,7 @@ const mapGenome = (genome: any) => {
   return {
     id: genome.id,
     name: genome.name,
+    subname: genome.accesionId,
     type: "genome",
   };
 }
@@ -67,7 +69,8 @@ const mapGenome = (genome: any) => {
 const mapBiosample = (biosample: any) => {
   return {
     id: biosample.id,
-    name: biosample.name,
+    name: biosample.speciesName,
+    subname: biosample.name,
     type: "biosample",
   };
 }
@@ -212,7 +215,7 @@ const Search: React.FC = () => {
             <ResultsList>
               {currentData.map((item) => (
                 <ResultItem key={item.id} onClick={() => handleItemClick(item)}>
-                  <ResultItemTitle>{`${item.name} (${item.id})`}</ResultItemTitle>
+                  <ResultItemTitle>{`${item.name} (${item.subname})`}</ResultItemTitle>
                   <ResultItemType>{item.type}</ResultItemType>
                 </ResultItem>
               ))}
