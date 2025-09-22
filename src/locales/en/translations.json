@@ -13,5 +13,12 @@
   "comparative.genomics.search.genomes": "Genomes",
   "comparative.genomics.search.organisms": "Organisms",
   "comparative.genomics.search.experiments": "Experiments",
-  "comparative.genomics.shared.back.button": "← Back to Home"
+  "comparative.genomics.shared.back.button": "← Back to Home",
+  "comparative.genomics.organism.details.genomes": "Associated Genomes",
+  "comparative.genomics.organism.details.biosampleId": "Biosample ID",
+  "comparative.genomics.organism.details.taxId": "Taxonomy ID",
+  "comparative.genomics.organism.details.species": "Species",
+  "comparative.genomics.organism.details.name": "Name",
+  "comparative.genomics.organism.details.createdAt": "Created At",
+  "comparative.genomics.organism.details.accessionId": "Accession ID"
 }

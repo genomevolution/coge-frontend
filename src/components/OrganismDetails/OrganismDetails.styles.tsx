@@ -65,16 +65,6 @@ export const InfoValue = styled.span`
   max-width: 400px;
 `;
 
-
-export const TimestampSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 0;
-  border-top: 2px solid #dee2e6;
-  margin-top: 0.75rem;
-`;
-
 export const TimestampLabel = styled.span`
   font-weight: 600;
   color: #495057;
