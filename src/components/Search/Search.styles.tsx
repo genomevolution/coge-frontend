@@ -169,6 +169,14 @@ export const ResultItemTitle = styled.h4`
   color: #212529;
 `;
 
+export const SpeciesNameItalic = styled.span`
+  font-style: italic;
+`;
+
+export const NameNormal = styled.span`
+  font-style: normal;
+`;
+
 export const ResultItemType = styled.span`
   font-size: 14px;
   color: #6c757d;

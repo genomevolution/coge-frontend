@@ -6,6 +6,8 @@ import {
   GenomeContainer,
   GenomeHeader,
   GenomeTitle,
+  SpeciesName,
+  GenomeName,
   GenomeInfo,
   InfoSection,
   InfoLabel,
@@ -135,7 +137,15 @@ ${mockGenome.accesion_id}	${annotationSource}	CDS	200	300	.	+	0	ID=CDS_002;Paren
           {t("comparative.genomics.shared.back.button")}
         </BackButton>
 
-        <GenomeTitle>{genomeResult?.name || "Loading..."}</GenomeTitle>
+        <GenomeTitle>
+          {genomeResult?.biosample?.speciesName && (
+            <>
+              <SpeciesName>{genomeResult.biosample.speciesName}</SpeciesName>
+              {" - "}
+            </>
+          )}
+          <GenomeName>{genomeResult?.name || "Loading..."}</GenomeName>
+        </GenomeTitle>
       </GenomeHeader>
 
       <GenomeInfo>
@@ -155,7 +165,7 @@ ${mockGenome.accesion_id}	${annotationSource}	CDS	200	300	.	+	0	ID=CDS_002;Paren
         </InfoSection>
       </GenomeInfo>
 
-      {genomeResult?.annotations && (<AnnotationsSection>
+      {genomeResult?.annotations && genomeResult.annotations.length > 0 && (<AnnotationsSection>
         <AnnotationsTitle>Associated Annotations ({genomeResult.annotations.length})</AnnotationsTitle>
         <AnnotationsList>
           {genomeResult.annotations.map((annotation: any, index: number) => (

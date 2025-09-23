@@ -21,6 +21,8 @@ import {
   ResultsList,
   ResultItem,
   ResultItemTitle,
+  SpeciesNameItalic,
+  NameNormal,
   ResultItemType,
   PaginationContainer,
   PaginationButton,
@@ -29,11 +31,13 @@ import {
 import { useTranslation } from "react-i18next";
 import { useGET } from "../../hooks/useGet";
 import { API_ENDPOINTS } from "../../config/api";
+
 interface SearchItem {
   id: string;
   name: string;
-  subname: string;
   type: "genome" | "biosample" | "experiment";
+  speciesName?: string;
+  genomeName?: string;
 }
 
 function parseResponse(
@@ -43,7 +47,7 @@ function parseResponse(
   if (!result || !result.data) {
     return [];
   }
-  
+
   const data = result.data;
   return data.map((o: any) => {
     switch (type) {
@@ -60,21 +64,20 @@ function parseResponse(
 const mapGenome = (genome: any) => {
   return {
     id: genome.id,
-    name: genome.name,
-    subname: genome.accesionId,
+    name:genome.name,
     type: "genome",
+    speciesName: genome.biosample.speciesName,
   };
 }
 
 const mapBiosample = (biosample: any) => {
   return {
     id: biosample.id,
-    name: biosample.speciesName,
-    subname: biosample.name,
+    name: biosample.name,
+    speciesName: biosample.speciesName,
     type: "biosample",
   };
 }
-
 
 
 type menuItem = 'organisms' | 'genomes' | 'experiments';
@@ -110,9 +113,9 @@ const Search: React.FC = () => {
   const [currentData, setCurrentData] = useState<SearchItem[]>([]);
   const [totalPages, _] = useState(1);
 
-  const { result: genomesResult, request: genomesRequest} =
+  const { result: genomesResult, request: genomesRequest } =
     useGET(API_ENDPOINTS.GENOMES);
-  const { result: biosamplesResult, request: biosamplesRequest} =
+  const { result: biosamplesResult, request: biosamplesRequest } =
     useGET(API_ENDPOINTS.BIOSAMPLES);
 
   useEffect(() => {
@@ -215,7 +218,13 @@ const Search: React.FC = () => {
             <ResultsList>
               {currentData.map((item) => (
                 <ResultItem key={item.id} onClick={() => handleItemClick(item)}>
-                  <ResultItemTitle>{`${item.name} (${item.subname})`}</ResultItemTitle>
+                  <ResultItemTitle>
+                    <>
+                      <SpeciesNameItalic>{item.speciesName}</SpeciesNameItalic>
+                      {" - "}
+                      <NameNormal>{item.name}</NameNormal>
+                    </>
+                  </ResultItemTitle>
                   <ResultItemType>{item.type}</ResultItemType>
                 </ResultItem>
               ))}
