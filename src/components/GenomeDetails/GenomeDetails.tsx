@@ -94,7 +94,7 @@ const GenomeDetails: React.FC = () => {
 
     try {
       const downloadUrl = `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult.filePath)}`;
-      
+
       // Create a temporary anchor element to trigger download
       const a = document.createElement('a');
       a.href = downloadUrl;
@@ -108,26 +108,26 @@ const GenomeDetails: React.FC = () => {
     }
   };
 
-  const handleDownloadGff3 = (annotationName: string) => {
-    const annotationSource = annotationName.replace(' Annotation', '').toLowerCase();
+  const handleDownloadGff3 = async (annotation: any) => {
+    if (!annotation?.filePath) {
+      console.error('No annotation file path available for download');
+      return;
+    }
 
-    const gff3Content = `##gff-version 3
-##source=${annotationSource}
-##sequence-region ${mockGenome.accesion_id} 1 4857432
-${mockGenome.accesion_id}	${annotationSource}	gene	1	100	.	+	.	ID=gene_001;Name=dnaA;product=Chromosomal replication initiator protein DnaA
-${mockGenome.accesion_id}	${annotationSource}	CDS	1	100	.	+	0	ID=CDS_001;Parent=gene_001;Name=dnaA;product=Chromosomal replication initiator protein DnaA
-${mockGenome.accesion_id}	${annotationSource}	gene	200	300	.	+	.	ID=gene_002;Name=gyrA;product=DNA gyrase subunit A
-${mockGenome.accesion_id}	${annotationSource}	CDS	200	300	.	+	0	ID=CDS_002;Parent=gene_002;Name=gyrA;product=DNA gyrase subunit A`;
-
-    const blob = new Blob([gff3Content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${mockGenome.accesion_id}_${annotationSource}.gff3`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    try {
+      const downloadUrl = `http://localhost:8000/files/download?filePath=${encodeURIComponent(annotation.filePath)}`;
+      
+      // Create a temporary anchor element to trigger download
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = `${genomeResult?.accesionId || 'genome'}_${annotation.name.toLowerCase().replace(' ', '_')}.gff3`;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Error downloading annotation file:', error);
+    }
   };
 
   return (
@@ -174,11 +174,13 @@ ${mockGenome.accesion_id}	${annotationSource}	CDS	200	300	.	+	0	ID=CDS_002;Paren
                 <AnnotationName>{annotation.name}</AnnotationName>
                 <AnnotationDescription>{annotation.description}</AnnotationDescription>
               </AnnotationContent>
-              <AnnotationDownloadButton onClick={() => handleDownloadGff3(annotation.name)}>
-                <AnnotationDownloadIcon>
-                  <img src="/download-icon.svg" alt="Download" />
-                </AnnotationDownloadIcon>
-              </AnnotationDownloadButton>
+              {annotation.filePath && (
+                <AnnotationDownloadButton onClick={() => handleDownloadGff3(annotation)}>
+                  <AnnotationDownloadIcon>
+                    <img src="/download-icon.svg" alt="Download" />
+                  </AnnotationDownloadIcon>
+                </AnnotationDownloadButton>
+              )}
             </AnnotationItem>
           ))}
         </AnnotationsList>
