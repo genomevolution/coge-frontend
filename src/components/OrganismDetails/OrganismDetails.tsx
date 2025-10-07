@@ -93,7 +93,7 @@ const BiosampleDetails: React.FC = () => {
         </BackButton>
 
         <BiosampleTitle>
-          <SpeciesName>{biosampleResult?.speciesName || "Loading..."}</SpeciesName>
+          <SpeciesName>{biosampleResult?.speciesName || t("comparative.genomics.genome.details.loading")}</SpeciesName>
           {biosampleResult?.name && (
             <>
               {" - "}
@@ -106,17 +106,17 @@ const BiosampleDetails: React.FC = () => {
       <BiosampleInfo>
         <InfoSection>
           <InfoLabel>{t("comparative.genomics.organism.details.biosampleId")}:</InfoLabel>
-          <InfoValue>{biosampleResult?.id || "Loading..."}</InfoValue>
+          <InfoValue>{biosampleResult?.id || t("comparative.genomics.genome.details.loading")}</InfoValue>
         </InfoSection>
 
         <InfoSection>
           <InfoLabel>{t("comparative.genomics.organism.details.taxId")}:</InfoLabel>
-          <InfoValue>{biosampleResult?.taxId || "Loading..."}</InfoValue>
+          <InfoValue>{biosampleResult?.taxId || t("comparative.genomics.genome.details.loading")}</InfoValue>
         </InfoSection>
 
         <InfoSection>
           <InfoLabel>{t("comparative.genomics.organism.details.species")}:</InfoLabel>
-          <InfoValue>{biosampleResult?.speciesName || "Loading..."}</InfoValue>
+          <InfoValue>{biosampleResult?.speciesName || t("comparative.genomics.genome.details.loading")}</InfoValue>
         </InfoSection>
 
         <InfoSection>

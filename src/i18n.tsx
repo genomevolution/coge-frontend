@@ -4,6 +4,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 // Importa los JSON de traducciones
 import en from "./locales/en/translations.json";
+import es from "./locales/es/translations.json";
 
 i18n
   .use(LanguageDetector) // Detecta idioma del navegador
@@ -11,6 +12,7 @@ i18n
   .init({
     resources: {
       en: { translation: en },
+      es: { translation: es },
     },
     fallbackLng: "en", // Idioma por defecto si no encuentra otro
     interpolation: {

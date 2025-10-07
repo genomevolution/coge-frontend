@@ -9,14 +9,20 @@ import {
   NavbarBrand,
   NavMenu,
   MobileMenuButton,
-  Hamburger
+  Hamburger,
+  LanguageSwitcher,
+  LanguageButton
 } from './Navbar.styles';
 
 interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  const handleLanguageChange = (language: string) => {
+    i18n.changeLanguage(language);
+  };
 
   return (
     <CogGenomicsNavbar>
@@ -32,7 +38,23 @@ const Navbar: React.FC<NavbarProps> = () => {
           </NavMenu>
         </NavbarCenter>
 
-        <NavbarRight>  
+        <NavbarRight>
+          <LanguageSwitcher>
+            <LanguageButton
+              isActive={i18n.language === 'en'}
+              onClick={() => handleLanguageChange('en')}
+              title={t("comparative.genomics.language.english")}
+            >
+              🇺🇸
+            </LanguageButton>
+            <LanguageButton
+              isActive={i18n.language === 'es'}
+              onClick={() => handleLanguageChange('es')}
+              title={t("comparative.genomics.language.spanish")}
+            >
+              🇪🇸
+            </LanguageButton>
+          </LanguageSwitcher>
           <MobileMenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <Hamburger />
           </MobileMenuButton>

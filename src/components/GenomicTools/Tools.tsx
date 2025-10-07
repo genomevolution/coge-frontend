@@ -10,15 +10,15 @@ export const TOOLS: readonly Tool[] = [
   {
     id: 'search',
     icon: '🧬',
-    title: 'Search',
-    description: 'Search Biosample',
-    buttonText: 'Start Analysis'
+    title: 'comparative.genomics.tools.search.title',
+    description: 'comparative.genomics.tools.search.description',
+    buttonText: 'comparative.genomics.tools.search.button'
   },
   {
     id: 'comparative-genomics',
     icon: '🔍',
-    title: 'Search by sequence',
-    description: 'BLAST.',
-    buttonText: 'Compare Genomes'
+    title: 'comparative.genomics.tools.blast.title',
+    description: 'comparative.genomics.tools.blast.description',
+    buttonText: 'comparative.genomics.tools.blast.button'
   }
 ] as const; 

@@ -34,11 +34,11 @@ const GenomicTools: React.FC = () => {
       <ToolsContent>
         <ToolsHeader>
           <ToolsTitle>
-            {isHomePage ? 'Available Tools' : t("comparative.genomics.tools")}
+            {isHomePage ? t("comparative.genomics.tools.available") : t("comparative.genomics.tools")}
           </ToolsTitle>
           <ToolsSubtitle>
             {isHomePage 
-              ? 'Click on any tool to get started with your genomic analysis'
+              ? t("comparative.genomics.tools.available.description")
               : t("comparative.genomics.tools.description")
             }
           </ToolsSubtitle>
@@ -48,13 +48,13 @@ const GenomicTools: React.FC = () => {
           {TOOLS.map((tool) => (
             <ToolCard key={tool.id} onClick={() => handleToolSelect(tool.id)}>
               <ToolIcon>{tool.icon}</ToolIcon>
-              <ToolTitle>{tool.title}</ToolTitle>
-              <ToolDescription>{tool.description}</ToolDescription>
+              <ToolTitle>{t(tool.title)}</ToolTitle>
+              <ToolDescription>{t(tool.description)}</ToolDescription>
               <ToolButton onClick={(e) => {
                 e.stopPropagation();
                 handleToolSelect(tool.id);
               }}>
-                {tool.buttonText}
+                {t(tool.buttonText)}
               </ToolButton>
             </ToolCard>
           ))}

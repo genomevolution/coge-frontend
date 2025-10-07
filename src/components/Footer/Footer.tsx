@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
             <FooterLink href="#questions">{t("comparative.genomics.footer.questions")}</FooterLink>
           </FooterMenu>
           <Copyright>
-            © {currentYear} All rights reserved
+            © {currentYear} {t("comparative.genomics.footer.copyright")}
           </Copyright>
         </FooterRight>
       </FooterContent>

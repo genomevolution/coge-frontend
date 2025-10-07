@@ -136,34 +136,34 @@ const GenomeDetails: React.FC = () => {
               {" - "}
             </>
           )}
-          <GenomeName>{genomeResult?.name || "Loading..."}</GenomeName>
+          <GenomeName>{genomeResult?.name || t("comparative.genomics.genome.details.loading")}</GenomeName>
         </GenomeTitle>
       </GenomeHeader>
 
       <GenomeInfo>
         <InfoSection>
-          <InfoLabel>Accession ID:</InfoLabel>
-          <InfoValue>{genomeResult?.accesionId || "Loading..."}</InfoValue>
+          <InfoLabel>{t("comparative.genomics.genome.details.accessionId")}</InfoLabel>
+          <InfoValue>{genomeResult?.accesionId || t("comparative.genomics.genome.details.loading")}</InfoValue>
         </InfoSection>
 
         <InfoSection>
-          <InfoLabel>Description:</InfoLabel>
-          <InfoValue>{genomeResult?.description || "Loading..."}</InfoValue>
+          <InfoLabel>{t("comparative.genomics.genome.details.description")}</InfoLabel>
+          <InfoValue>{genomeResult?.description || t("comparative.genomics.genome.details.loading")}</InfoValue>
         </InfoSection>
 
         <InfoSection>
-          <InfoLabel>Created:</InfoLabel>
-          <InfoValue>{genomeResult?.createdAt ? formatDate(genomeResult.createdAt) : "Loading..."}</InfoValue>
+          <InfoLabel>{t("comparative.genomics.genome.details.created")}</InfoLabel>
+          <InfoValue>{genomeResult?.createdAt ? formatDate(genomeResult.createdAt) : t("comparative.genomics.genome.details.loading")}</InfoValue>
         </InfoSection>
       </GenomeInfo>
 
       {genomeResult?.filePath && (
         <GenomeSection>
-          <DownloadTitle>Genome Browser</DownloadTitle>
+          <DownloadTitle>{t("comparative.genomics.genome.details.genomeBrowser")}</DownloadTitle>
           <DownloadButtons>
             <DownloadButton onClick={handleVisualizeJBrowser}>
               <DownloadIcon>🧬</DownloadIcon>
-              Visualize in JBrowse2
+              {t("comparative.genomics.genome.details.visualizeJBrowse")}
             </DownloadButton>
           </DownloadButtons>
         </GenomeSection>
@@ -172,11 +172,11 @@ const GenomeDetails: React.FC = () => {
 
       {genomeResult?.filePath && (
         <GenomeSection>
-          <DownloadTitle>Download Genome</DownloadTitle>
+          <DownloadTitle>{t("comparative.genomics.genome.details.downloadGenome")}</DownloadTitle>
           <DownloadButtons>
             <DownloadButton onClick={handleDownloadFasta}>
               <DownloadIcon>📄</DownloadIcon>
-              Download FASTA
+              {t("comparative.genomics.genome.details.downloadFasta")}
             </DownloadButton>
           </DownloadButtons>
         </GenomeSection>
@@ -184,7 +184,7 @@ const GenomeDetails: React.FC = () => {
 
 
       {genomeResult?.annotations && genomeResult.annotations.length > 0 && (<AnnotationsSection>
-        <AnnotationsTitle>Associated Annotations ({genomeResult.annotations.length})</AnnotationsTitle>
+        <AnnotationsTitle>{t("comparative.genomics.genome.details.annotations")} ({genomeResult.annotations.length})</AnnotationsTitle>
         <AnnotationsList>
           {genomeResult.annotations.map((annotation: any, index: number) => (
             <AnnotationItem key={index}>
@@ -195,7 +195,7 @@ const GenomeDetails: React.FC = () => {
               {annotation.filePath && (
                 <AnnotationDownloadButton onClick={() => handleDownloadGff3(annotation)}>
                   <AnnotationDownloadIcon>
-                    <img src="/download-icon.svg" alt="Download" />
+                    <img src="/download-icon.svg" alt={t("comparative.genomics.download")} />
                   </AnnotationDownloadIcon>
                 </AnnotationDownloadButton>
               )}

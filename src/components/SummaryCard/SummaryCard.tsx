@@ -29,18 +29,18 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
   const stats = [
     {
       number: biosamplesCount,
-      label: "Biosamples",
-      description: "Species analyzed in our database",
+      label: t("comparative.genomics.summary.stats.biosamples"),
+      description: t("comparative.genomics.summary.stats.biosamples.description"),
     },
     {
       number: genomesCount,
-      label: "Genomes",
-      description: "Complete genome sequences available",
+      label: t("comparative.genomics.summary.stats.genomes"),
+      description: t("comparative.genomics.summary.stats.genomes.description"),
     },
     {
       number: experimentsCount,
-      label: "Experiments",
-      description: "Research experiments conducted",
+      label: t("comparative.genomics.summary.stats.experiments"),
+      description: t("comparative.genomics.summary.stats.experiments.description"),
     },
   ];
 

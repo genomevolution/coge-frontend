@@ -151,3 +151,36 @@ export const Hamburger = styled.span`
     transform: translateY(8px);
   }
 `;
+
+export const LanguageSwitcher = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 1rem;
+`;
+
+export const LanguageButton = styled.button<{ isActive?: boolean }>`
+  background: none;
+  border: 2px solid ${({ isActive }) => isActive ? '#fff' : 'rgba(255, 255, 255, 0.5)'};
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  opacity: ${({ isActive }) => isActive ? '1' : '0.7'};
+
+  &:hover {
+    opacity: 1;
+    border-color: #fff;
+    transform: scale(1.1);
+  }
+
+  img {
+    width: 24px;
+    height: 18px;
+    border-radius: 2px;
+  }
+`;

@@ -192,14 +192,14 @@ const Search: React.FC = () => {
       <SearchArea>
         <SearchHeader>
           <SearchTitle>
-            Search{" "}
+            {t("comparative.genomics.search.title")}{" "}
             {selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1)}
           </SearchTitle>
 
           <SearchBarContainer>
             <SearchInput
               type="text"
-              placeholder={`Search ${selectedMenu}...`}
+              placeholder={`${t("comparative.genomics.search.placeholder")} ${selectedMenu}...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSearch()}
@@ -213,7 +213,7 @@ const Search: React.FC = () => {
         </SearchHeader>
 
         <ResultsContainer>
-          <ResultsTitle>Results </ResultsTitle>
+          <ResultsTitle>{t("comparative.genomics.search.results")} </ResultsTitle>
           <>
             <ResultsList>
               {currentData.map((item) => (
@@ -260,7 +260,7 @@ const Search: React.FC = () => {
                 </PaginationButton>
 
                 <PaginationInfo>
-                  Page {currentPage} of {totalPages} ({" "} total results)
+                  {t("comparative.genomics.search.page")} {currentPage} {t("comparative.genomics.search.of")} {totalPages} ({" "} {t("comparative.genomics.search.total")})
                 </PaginationInfo>
               </PaginationContainer>
             )}
