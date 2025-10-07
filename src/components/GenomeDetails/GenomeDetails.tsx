@@ -27,8 +27,19 @@ import {
   DownloadButton,
   DownloadIcon,
 } from "./GenomeDetails.styles.tsx";
-import { API_ENDPOINTS } from "../../config/api.ts";
+import { API_ENDPOINTS, buildFileDownloadUrl, triggerFileDownload } from "../../config/api.ts";
 import { useGET } from "../../hooks/useGet.tsx";
+
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+};
 
 const GenomeDetails: React.FC = () => {
   const { t } = useTranslation();
@@ -69,84 +80,41 @@ const GenomeDetails: React.FC = () => {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit"
-    });
+  const handleDownloadFasta = () => {
+    const filePath = genomeResult?.filePath;
+    const fileName = `${genomeResult?.accesionId || 'genome'}.fasta`;
+    triggerFileDownload(filePath, fileName);
   };
 
-  const handleDownloadFasta = async () => {
-    if (!genomeResult?.filePath) {
-      console.error('No file path available for download');
-      return;
-    }
-
-    try {
-      const downloadUrl = `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult.filePath)}`;
-
-      // Create a temporary anchor element to trigger download
-      const a = document.createElement('a');
-      a.href = downloadUrl;
-      a.download = `${genomeResult.accesionId || 'genome'}.fasta`;
-      a.target = '_blank';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } catch (error) {
-      console.error('Error downloading file:', error);
-    }
-  };
-
-  const handleDownloadGff3 = async (annotation: any) => {
-    if (!annotation?.filePath) {
-      console.error('No annotation file path available for download');
-      return;
-    }
-
-    try {
-      const downloadUrl = `http://localhost:8000/files/download?filePath=${encodeURIComponent(annotation.filePath)}`;
-      
-      // Create a temporary anchor element to trigger download
-      const a = document.createElement('a');
-      a.href = downloadUrl;
-      a.download = `${genomeResult?.accesionId || 'genome'}_${annotation.name.toLowerCase().replace(' ', '_')}.gff3`;
-      a.target = '_blank';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } catch (error) {
-      console.error('Error downloading annotation file:', error);
-    }
+  const handleDownloadGff3 = (annotation: any) => {
+    const filePath = annotation?.filePath;
+    const fileName = `${genomeResult?.accesionId || 'genome'}_${annotation.name.toLowerCase().replace(' ', '_')}.gff3`;
+    triggerFileDownload(filePath, fileName);
   };
 
   const handleVisualizeJBrowser = () => {
     try {
-      // Prepare annotation data for JBrowse
       const annotations = genomeResult?.annotations?.map((annotation: any) => ({
         name: annotation.name,
-        filePath: `http://localhost:8000/files/download?filePath=${encodeURIComponent(annotation.filePath)}`
+        filePath: buildFileDownloadUrl(annotation.filePath)
       })) || [];
 
-      const mockedGenomeData = {
+      const data = {
         name: genomeResult?.name || 'Ppersica',
         accessionId: genomeResult?.accesionId || 'Ppersica_298_v2.0',
         speciesName: genomeResult?.biosample?.speciesName || 'Prunus persica',
-        fastaFile: `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult?.genomeVisualizationFiles.fasta_file_path)}`, 
-        faiFile: `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult?.genomeVisualizationFiles.fai_file_path)}`,
-        gziFile: `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult?.genomeVisualizationFiles.gzi_file_path)}`,
+        fastaFile: buildFileDownloadUrl(genomeResult?.genomeVisualizationFiles.fasta_file_path),
+        faiFile: buildFileDownloadUrl(genomeResult?.genomeVisualizationFiles.fai_file_path),
+        gziFile: buildFileDownloadUrl(genomeResult?.genomeVisualizationFiles.gzi_file_path),
         annotations: annotations,
       };
 
       const jbrowseUrl = `${window.location.origin}/jbrowse`;
       const newTab = window.open(jbrowseUrl, '_blank');
-      
+
       if (newTab) {
         newTab.addEventListener('load', () => {
-          newTab.postMessage({ genomeData: mockedGenomeData }, window.location.origin);
+          newTab.postMessage({ genomeData: data }, window.location.origin);
         });
       }
     } catch (error) {
@@ -191,14 +159,27 @@ const GenomeDetails: React.FC = () => {
 
       {genomeResult?.filePath && (
         <GenomeSection>
-          <DownloadTitle>Visualization</DownloadTitle>
+          <DownloadTitle>Genome Browser</DownloadTitle>
           <DownloadButtons>
             <DownloadButton onClick={handleVisualizeJBrowser}>
               <DownloadIcon>🧬</DownloadIcon>
               Visualize in JBrowse2
             </DownloadButton>
           </DownloadButtons>
-        </GenomeSection>  
+        </GenomeSection>
+      )}
+
+
+      {genomeResult?.filePath && (
+        <GenomeSection>
+          <DownloadTitle>Download Genome</DownloadTitle>
+          <DownloadButtons>
+            <DownloadButton onClick={handleDownloadFasta}>
+              <DownloadIcon>📄</DownloadIcon>
+              Download FASTA
+            </DownloadButton>
+          </DownloadButtons>
+        </GenomeSection>
       )}
 
 
@@ -222,20 +203,6 @@ const GenomeDetails: React.FC = () => {
           ))}
         </AnnotationsList>
       </AnnotationsSection>)}
-
-
-      {genomeResult?.filePath && (
-        <GenomeSection>
-          <DownloadTitle>Download Files</DownloadTitle>
-          <DownloadButtons>
-            <DownloadButton onClick={handleDownloadFasta}>
-              <DownloadIcon>📄</DownloadIcon>
-              Download FASTA
-            </DownloadButton>
-          </DownloadButtons>
-        </GenomeSection>
-      )}
-
 
 
     </GenomeContainer>
