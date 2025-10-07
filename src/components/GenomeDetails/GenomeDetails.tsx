@@ -21,21 +21,14 @@ import {
   AnnotationDescription,
   AnnotationDownloadButton,
   AnnotationDownloadIcon,
-  DownloadSection,
+  GenomeSection,
   DownloadTitle,
   DownloadButtons,
   DownloadButton,
-  DownloadIcon
+  DownloadIcon,
 } from "./GenomeDetails.styles.tsx";
 import { API_ENDPOINTS } from "../../config/api.ts";
 import { useGET } from "../../hooks/useGet.tsx";
-
-const mockGenome = {
-  accesion_id: "CP123456.1",
-  name: "Salmonella Typhimurium ST19 Complete Genome",
-  description: "Complete genome sequence of Salmonella enterica subsp. enterica serovar Typhimurium strain ST19, isolated from clinical specimen. This genome contains 4,857,432 base pairs with 4,672 predicted protein-coding genes, 22 rRNA genes, and 86 tRNA genes.",
-  created_at: "2023-06-01T10:30:00Z"
-};
 
 const GenomeDetails: React.FC = () => {
   const { t } = useTranslation();
@@ -130,6 +123,30 @@ const GenomeDetails: React.FC = () => {
     }
   };
 
+  const handleVisualizeJBrowser = () => {
+    try {
+      const mockedGenomeData = {
+        name: genomeResult?.name || 'Ppersica',
+        accessionId: genomeResult?.accesionId || 'Ppersica_298_v2.0',
+        speciesName: genomeResult?.biosample?.speciesName || 'Prunus persica',
+        fastaFile: `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult?.genomeVisualizationFiles.fasta_file_path)}`, 
+        faiFile: `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult?.genomeVisualizationFiles.fai_file_path)}`,
+        gziFile: `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult?.genomeVisualizationFiles.gzi_file_path)}`,
+      };
+
+      const jbrowseUrl = `${window.location.origin}/jbrowse`;
+      const newTab = window.open(jbrowseUrl, '_blank');
+      
+      if (newTab) {
+        newTab.addEventListener('load', () => {
+          newTab.postMessage({ genomeData: mockedGenomeData }, window.location.origin);
+        });
+      }
+    } catch (error) {
+      console.error('Error opening JBrowse:', error);
+    }
+  };
+
   return (
     <GenomeContainer>
       <GenomeHeader>
@@ -165,6 +182,19 @@ const GenomeDetails: React.FC = () => {
         </InfoSection>
       </GenomeInfo>
 
+      {genomeResult?.filePath && (
+        <GenomeSection>
+          <DownloadTitle>Visualization</DownloadTitle>
+          <DownloadButtons>
+            <DownloadButton onClick={handleVisualizeJBrowser}>
+              <DownloadIcon>🧬</DownloadIcon>
+              Visualize in JBrowse2
+            </DownloadButton>
+          </DownloadButtons>
+        </GenomeSection>  
+      )}
+
+
       {genomeResult?.annotations && genomeResult.annotations.length > 0 && (<AnnotationsSection>
         <AnnotationsTitle>Associated Annotations ({genomeResult.annotations.length})</AnnotationsTitle>
         <AnnotationsList>
@@ -188,7 +218,7 @@ const GenomeDetails: React.FC = () => {
 
 
       {genomeResult?.filePath && (
-        <DownloadSection>
+        <GenomeSection>
           <DownloadTitle>Download Files</DownloadTitle>
           <DownloadButtons>
             <DownloadButton onClick={handleDownloadFasta}>
@@ -196,8 +226,9 @@ const GenomeDetails: React.FC = () => {
               Download FASTA
             </DownloadButton>
           </DownloadButtons>
-        </DownloadSection>
+        </GenomeSection>
       )}
+
 
 
     </GenomeContainer>

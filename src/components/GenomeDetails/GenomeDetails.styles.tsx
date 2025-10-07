@@ -116,11 +116,12 @@ export const AnnotationDescription = styled.p`
   line-height: 1.4;
 `;
 
-export const DownloadSection = styled.div`
+export const GenomeSection = styled.div`
   background-color: white;
   border: 1px solid #dee2e6;
   border-radius: 8px;
   padding: 1.5rem;
+  margin-bottom: 2rem;
 `;
 
 export const DownloadTitle = styled.h3`
