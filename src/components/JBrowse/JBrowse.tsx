@@ -21,7 +21,6 @@ const JBrowse: React.FC<JBrowseProps> = ({ genomeData: initialGenomeData }) => {
   const [viewState, setViewState] = useState<ViewModel>();
   const [genomeData, setGenomeData] = useState(initialGenomeData);
 
-  // Listen for messages from parent window
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== window.location.origin) return;
@@ -36,20 +35,19 @@ const JBrowse: React.FC<JBrowseProps> = ({ genomeData: initialGenomeData }) => {
   }, []);
 
   useEffect(() => {
-    // Create dynamic config based on genomeData props
     const dynamicConfig = {
       ...config,
       assemblies: [
         {
-          name: genomeData?.name || 'Ppersica',
+          name: genomeData?.name,
           sequence: {
             type: 'ReferenceSequenceTrack',
-            trackId: `${genomeData?.name || 'Ppersica'}-ReferenceSequenceTrack`,
+            trackId: `${genomeData?.name}-ReferenceSequenceTrack`,
             adapter: {
               type: 'BgzipFastaAdapter',
-              fastaLocation: { uri: genomeData?.fastaFile || '/Ppersica_298_v2.0.fa.bgz' },
-              faiLocation: { uri: genomeData?.faiFile || '/Ppersica_298_v2.0.fa.bgz.fai' },
-              gziLocation: { uri: genomeData?.gziFile || '/Ppersica_298_v2.0.fa.bgz.gzi' },
+              fastaLocation: { uri: genomeData?.fastaFile  },
+              faiLocation: { uri: genomeData?.faiFile },
+              gziLocation: { uri: genomeData?.gziFile },
             },
           },
         },
