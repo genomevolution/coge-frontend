@@ -14,6 +14,10 @@ interface JBrowseProps {
     fastaFile?: string;
     faiFile?: string;
     gziFile?: string;
+    annotations?: Array<{
+      name: string;
+      filePath: string;
+    }>;
   };
 }
 
@@ -35,22 +39,37 @@ const JBrowse: React.FC<JBrowseProps> = ({ genomeData: initialGenomeData }) => {
   }, []);
 
   useEffect(() => {
+    // Create annotation tracks
+    const annotationTracks = genomeData?.annotations?.map((annotation, index) => ({
+      type: 'FeatureTrack',
+      trackId: `annotation-${index}`,
+      name: annotation.name,
+      assemblyNames: [genomeData?.name || 'Ppersica'],
+      adapter: {
+        type: 'Gff3Adapter',
+        gffLocation: { uri: annotation.filePath },
+      },
+    })) || [];
+
     const dynamicConfig = {
       ...config,
       assemblies: [
         {
-          name: genomeData?.name,
+          name: genomeData?.name || 'Ppersica',
           sequence: {
             type: 'ReferenceSequenceTrack',
-            trackId: `${genomeData?.name}-ReferenceSequenceTrack`,
+            trackId: `${genomeData?.name || 'Ppersica'}-ReferenceSequenceTrack`,
             adapter: {
               type: 'BgzipFastaAdapter',
-              fastaLocation: { uri: genomeData?.fastaFile  },
-              faiLocation: { uri: genomeData?.faiFile },
-              gziLocation: { uri: genomeData?.gziFile },
+              fastaLocation: { uri: genomeData?.fastaFile || '/Ppersica_298_v2.0.fa.bgz' },
+              faiLocation: { uri: genomeData?.faiFile || '/Ppersica_298_v2.0.fa.bgz.fai' },
+              gziLocation: { uri: genomeData?.gziFile || '/Ppersica_298_v2.0.fa.bgz.gzi' },
             },
           },
         },
+      ],
+      tracks: [
+        ...annotationTracks,
       ],
       defaultSession: {
         ...config.defaultSession,
@@ -58,7 +77,7 @@ const JBrowse: React.FC<JBrowseProps> = ({ genomeData: initialGenomeData }) => {
           {
             id: 'linearGenomeView',
             minimized: false,
-            type: 'LinearGenomeView'
+            type: 'LinearGenomeView',
           },
         ],
       },

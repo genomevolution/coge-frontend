@@ -125,6 +125,12 @@ const GenomeDetails: React.FC = () => {
 
   const handleVisualizeJBrowser = () => {
     try {
+      // Prepare annotation data for JBrowse
+      const annotations = genomeResult?.annotations?.map((annotation: any) => ({
+        name: annotation.name,
+        filePath: `http://localhost:8000/files/download?filePath=${encodeURIComponent(annotation.filePath)}`
+      })) || [];
+
       const mockedGenomeData = {
         name: genomeResult?.name || 'Ppersica',
         accessionId: genomeResult?.accesionId || 'Ppersica_298_v2.0',
@@ -132,6 +138,7 @@ const GenomeDetails: React.FC = () => {
         fastaFile: `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult?.genomeVisualizationFiles.fasta_file_path)}`, 
         faiFile: `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult?.genomeVisualizationFiles.fai_file_path)}`,
         gziFile: `http://localhost:8000/files/download?filePath=${encodeURIComponent(genomeResult?.genomeVisualizationFiles.gzi_file_path)}`,
+        annotations: annotations,
       };
 
       const jbrowseUrl = `${window.location.origin}/jbrowse`;
