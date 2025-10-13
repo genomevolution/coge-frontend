@@ -1,10 +1,10 @@
 {
-  "comparative.genomics.title": "Genómica Comparativa",
+  "comparative.genomics.title": "Comparative Genomics",
   "comparative.genomics.login": "Iniciar Sesión",
   "comparative.genomics.signup": "Registrarse",
   "comparative.genomics.search": "Buscar...",
   "comparative.genomics.tools": "Herramientas de Análisis Genómico",
-  "comparative.genomics.tools.description": "Suite integral de herramientas para genómica comparativa, análisis de secuencias y estudios evolutivos",
+  "comparative.genomics.tools.description": "Conjunto de herramientas para genómica comparativa, análisis de secuencias y estudios evolutivos",
   "comparative.genomics.summary.card.title": "Resumen de Investigación",
   "comparative.genomics.summary.card.description": "Descripción general de nuestra base de datos de investigación genómica",
   "comparative.genomics.footer.about": "Acerca de",
