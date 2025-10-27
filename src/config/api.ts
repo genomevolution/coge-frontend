@@ -3,7 +3,7 @@ const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL || 'http://127.
 
 export const API_ENDPOINTS = {
   GENOMES: `${API_BASE_URL}/genomes/`,
-  BIOSAMPLES: `${API_BASE_URL}/biosamples/`,
+  ORGANISM: `${API_BASE_URL}/organisms/`,
   EXPERIMENTS: `${API_BASE_URL}/experiments/`,
   FILES_DOWNLOAD: `${API_BASE_URL}/files/download`,
 } as const;

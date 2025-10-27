@@ -71,7 +71,7 @@ const GenomeDetails: React.FC = () => {
     const biosampleId = location.state?.biosampleId;
 
     if (fromBiosample && biosampleId) {
-      navigate(`/biosamples/${biosampleId}`, {
+      navigate(`/organisms/${biosampleId}`, {
         state: { returnedFromGenome: true },
         replace: true
       });

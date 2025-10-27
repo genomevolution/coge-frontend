@@ -19,18 +19,18 @@ interface SummaryCardProps {
 }
 
 const SummaryCard: React.FC<SummaryCardProps> = ({
-  data = { biosamples: 156, genomes: 89, experiments: 234 },
+  data = { organism: 156, genomes: 89, experiments: 234 },
 }) => {
   const { t } = useTranslation();
-  const biosamplesCount = useCounterAnimation(data.biosamples, 800);
+  const organismCount = useCounterAnimation(data.organism, 800);
   const genomesCount = useCounterAnimation(data.genomes, 800);
   const experimentsCount = useCounterAnimation(data.experiments, 800);
 
   const stats = [
     {
-      number: biosamplesCount,
-      label: t("comparative.genomics.summary.stats.biosamples"),
-      description: t("comparative.genomics.summary.stats.biosamples.description"),
+      number: organismCount,
+      label: t("comparative.genomics.summary.stats.organisms"),
+      description: t("comparative.genomics.summary.stats.organisms.description"),
     },
     {
       number: genomesCount,

@@ -54,7 +54,7 @@ function parseResponse(
       case "genome":
         return mapGenome(o);
       case "biosample":
-        return mapBiosample(o);
+        return mapOrganism(o);
       default:
         return null;
     }
@@ -66,16 +66,16 @@ const mapGenome = (genome: any) => {
     id: genome.id,
     name:genome.name,
     type: "genome",
-    speciesName: genome.biosample.speciesName,
+    speciesName: genome.organism.speciesName,
   };
 }
 
-const mapBiosample = (biosample: any) => {
+const mapOrganism = (organism: any) => {
   return {
-    id: biosample.id,
-    name: biosample.name,
-    speciesName: biosample.speciesName,
-    type: "biosample",
+    id: organism.id,
+    name: organism.name,
+    speciesName: organism.speciesName,
+    type: "organism",
   };
 }
 
@@ -115,14 +115,14 @@ const Search: React.FC = () => {
 
   const { result: genomesResult, request: genomesRequest } =
     useGET(API_ENDPOINTS.GENOMES);
-  const { result: biosamplesResult, request: biosamplesRequest } =
-    useGET(API_ENDPOINTS.BIOSAMPLES);
+  const { result: organismsResults, request: organismRequest } =
+    useGET(API_ENDPOINTS.ORGANISM);
 
   useEffect(() => {
     if (selectedMenu === "genomes") {
       genomesRequest();
     } else if (selectedMenu === "organisms") {
-      biosamplesRequest();
+      organismRequest();
     } else if (selectedMenu === "experiments") {
       setCurrentData([]);
     }
@@ -135,10 +135,10 @@ const Search: React.FC = () => {
   }, [genomesResult, selectedMenu]);
 
   useEffect(() => {
-    if (biosamplesResult && selectedMenu === "organisms") {
-      setCurrentData(parseResponse(biosamplesResult, "biosample"));
+    if (organismsResults && selectedMenu === "organisms") {
+      setCurrentData(parseResponse(organismsResults, "biosample"));
     }
-  }, [biosamplesResult, selectedMenu]);
+  }, [organismsResults, selectedMenu]);
 
 
   const handleBack = () => {
@@ -147,7 +147,7 @@ const Search: React.FC = () => {
 
   const handleItemClick = (item: SearchItem) => {
     if (item.type === "biosample") {
-      navigate(`/biosamples/${item.id}`);
+      navigate(`/organisms/${item.id}`);
     } else if (item.type === "genome") {
       navigate(`/genomes/${item.id}`);
     }

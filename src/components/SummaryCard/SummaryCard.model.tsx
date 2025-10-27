@@ -1,5 +1,5 @@
 export interface StatData {
-  biosamples: number;
+  organism: number;
   genomes: number;
   experiments: number;
 }

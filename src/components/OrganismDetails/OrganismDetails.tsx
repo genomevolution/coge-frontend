@@ -44,7 +44,7 @@ const BiosampleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const biosampleUrl = useMemo(() => `${API_ENDPOINTS.BIOSAMPLES}${id}`, [id]);
+  const biosampleUrl = useMemo(() => `${API_ENDPOINTS.ORGANISM}${id}`, [id]);
 
   const { result: biosampleResult, error: biosampleError, request: biosampleRequest } = useGET(biosampleUrl);
 

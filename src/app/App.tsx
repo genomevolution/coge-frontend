@@ -24,7 +24,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/tools/search" element={<Search />} />
             <Route path="/tools/comparative-genomics" element={<ComparativeGenomics />} />
-            <Route path="/biosamples/:id" element={<OrganismDetails />} />
+            <Route path="/organisms/:id" element={<OrganismDetails />} />
             <Route path="/genomes/:id" element={<GenomeDetails />} />
             <Route path="/jbrowse" element={<JBrowse />} />
           </Routes>
