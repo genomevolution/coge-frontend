@@ -113,10 +113,8 @@ const Search: React.FC = () => {
   const [currentData, setCurrentData] = useState<SearchItem[]>([]);
   const [totalPages, _] = useState(1);
 
-  const { result: genomesResult, request: genomesRequest } =
-    useGET(API_ENDPOINTS.GENOMES);
-  const { result: organismsResults, request: organismRequest } =
-    useGET(API_ENDPOINTS.ORGANISM);
+  const { result: genomesResult, request: genomesRequest } = useGET(API_ENDPOINTS.GENOMES);
+  const { result: organismsResults, request: organismRequest } = useGET(API_ENDPOINTS.ORGANISM);
 
   useEffect(() => {
     if (selectedMenu === "genomes") {
@@ -265,7 +263,6 @@ const Search: React.FC = () => {
               </PaginationContainer>
             )}
           </>
-
         </ResultsContainer>
       </SearchArea>
     </SearchContainer>
