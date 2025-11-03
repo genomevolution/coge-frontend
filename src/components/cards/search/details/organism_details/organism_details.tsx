@@ -1,9 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { BackButton } from "../Shared/BackButtom.style.tsx";
-import { useGET } from "../../hooks/useGet.tsx";
-import { API_ENDPOINTS } from "../../config/api.ts";
 import {
   BiosampleContainer,
   BiosampleHeader,
@@ -22,7 +19,10 @@ import {
   GenomeId,
   TimestampLabel,
   TimestampValue
-} from "./OrganismDetails.styles.tsx";
+} from "./organism_details.styles.tsx";
+import { BackButton } from "../../../../shared/back_button.style.tsx";
+import { API_ENDPOINTS } from "../../../../../config/api.ts";
+import { useGET } from "../../../../../hooks/useGet.tsx";
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("en-US", {

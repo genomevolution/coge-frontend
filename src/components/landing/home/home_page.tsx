@@ -1,7 +1,7 @@
 import React from 'react';
-import SummaryCard from '../SummaryCard';
-import GenomicTools from '../GenomicTools';
-import { HomePageContainer } from './HomePage.styles';
+import SummaryCard from '../summary_card';
+import GenomicTools from '../genomic_tools';
+import { HomePageContainer } from './home_page.styles';
 
 const HomePage: React.FC = () => {
   return (

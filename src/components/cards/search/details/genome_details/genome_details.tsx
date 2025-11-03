@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { BackButton } from "../Shared/BackButtom.style";
+import { BackButton } from "../../../../shared/back_button.style.tsx";
 import {
   GenomeContainer,
   GenomeHeader,
@@ -26,9 +26,9 @@ import {
   DownloadButtons,
   DownloadButton,
   DownloadIcon,
-} from "./GenomeDetails.styles.tsx";
-import { API_ENDPOINTS, buildFileDownloadUrl, triggerFileDownload } from "../../config/api.ts";
-import { useGET } from "../../hooks/useGet.tsx";
+} from "./genome_details.styles.tsx";
+import { API_ENDPOINTS, buildFileDownloadUrl, triggerFileDownload } from "../../../../../config/api.ts";
+import { useGET } from "../../../../../hooks/useGet.tsx";
 
 
 const formatDate = (dateString: string) => {

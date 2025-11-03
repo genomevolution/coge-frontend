@@ -1,15 +1,17 @@
-import Navbar from '../components/Navbar/Navbar';
-import Footer from '../components/Footer';
-import HomePage from '../components/HomePage';
-import Search from '../components/Search';
-import ComparativeGenomics from '../components/ComparativeGenomics';
-import OrganismDetails from '../components/OrganismDetails';
-import GenomeDetails from '../components/GenomeDetails';
-import JBrowse from '../components/JBrowse';
+
+import Footer from '../components/landing/footer';
+import Navbar from '../components/landing/navbar/navbar'; 
+import HomePage from '../components/landing/home';
+import Search from '../components/cards/search/menu';
+import ComparativeGenomics from '../components/cards/comparative_genomics';
+import OrganismDetails from '../components/cards/search/details/organism_details/organism_details';
+import JBrowse from '../components/cards/search/jbrowse';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../types/theme';
-import { AppContainer, MainContent } from './App.styles';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import GenomeDetails from '../components/cards/search/details/genome_details';
+import { AppContainer, MainContent } from './app.styles';
+
 
 function App() {
   const location = useLocation();

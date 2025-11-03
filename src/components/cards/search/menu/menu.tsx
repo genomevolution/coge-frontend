@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BackButton } from "../Shared/BackButtom.style";
+import { BackButton } from "../../../shared/back_button.style";
 import {
   SearchContainer,
   Sidebar,
@@ -27,22 +27,22 @@ import {
   PaginationContainer,
   PaginationButton,
   PaginationInfo
-} from "./Search.styles";
+} from "./menu.styles";
 import { useTranslation } from "react-i18next";
-import { useGET } from "../../hooks/useGet";
-import { API_ENDPOINTS } from "../../config/api";
+import { useGET } from "../../../../hooks/useGet";
+import { API_ENDPOINTS } from "../../../../config/api";
 
 interface SearchItem {
   id: string;
   name: string;
-  type: "genome" | "biosample" | "experiment";
+  type: "genome" | "organism" | "experiment";
   speciesName?: string;
   genomeName?: string;
 }
 
 function parseResponse(
   result: any,
-  type: "genome" | "biosample" | "experiment"
+  type: "genome" | "organism" | "experiment"
 ): SearchItem[] {
   if (!result || !result.data) {
     return [];
@@ -53,7 +53,7 @@ function parseResponse(
     switch (type) {
       case "genome":
         return mapGenome(o);
-      case "biosample":
+      case "organism":
         return mapOrganism(o);
       default:
         return null;
@@ -103,7 +103,7 @@ const menuState = [
   },
 ]
 
-const Search: React.FC = () => {
+const Menu: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -134,7 +134,7 @@ const Search: React.FC = () => {
 
   useEffect(() => {
     if (organismsResults && selectedMenu === "organisms") {
-      setCurrentData(parseResponse(organismsResults, "biosample"));
+      setCurrentData(parseResponse(organismsResults, "organism"));
     }
   }, [organismsResults, selectedMenu]);
 
@@ -144,7 +144,7 @@ const Search: React.FC = () => {
   };
 
   const handleItemClick = (item: SearchItem) => {
-    if (item.type === "biosample") {
+    if (item.type === "organism") {
       navigate(`/organisms/${item.id}`);
     } else if (item.type === "genome") {
       navigate(`/genomes/${item.id}`);
@@ -269,5 +269,5 @@ const Search: React.FC = () => {
   );
 };
 
-export default Search;
+export default Menu;
 

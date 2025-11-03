@@ -12,7 +12,7 @@ import {
   ToolTitle,
   ToolDescription,
   ToolButton
-} from './GenomicTools.styles';
+} from './genomic_tools.styles';
 import { useTranslation } from 'react-i18next';
 import { TOOLS } from './index';
 

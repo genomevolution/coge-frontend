@@ -9,7 +9,7 @@ import {
   FooterMenu,
   FooterLink,
   Copyright
-} from './Footer.styles';
+} from './footer.styles';
 import { useTranslation } from 'react-i18next';
 
 const Footer: React.FC = () => {

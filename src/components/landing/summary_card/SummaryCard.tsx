@@ -1,5 +1,5 @@
 import React from "react";
-import { useCounterAnimation } from "../../hooks";
+import { useCounterAnimation } from "../../../hooks";
 import { StatData } from "./SummaryCard.model";
 import {
   SummaryCardContainer,

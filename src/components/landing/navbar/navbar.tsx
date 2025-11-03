@@ -12,7 +12,7 @@ import {
   Hamburger,
   LanguageSwitcher,
   LanguageButton
-} from './Navbar.styles';
+} from './navbar.styles';
 
 interface NavbarProps {}
 
