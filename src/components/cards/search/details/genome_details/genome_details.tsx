@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BackButton } from "../../../../shared/back_button.style.tsx";
@@ -41,10 +41,30 @@ const formatDate = (dateString: string) => {
   });
 };
 
+type GenomeFileItem = {
+  type?: string;
+  file?: {
+    path?: string;
+  };
+};
+
+const FASTA_FILE_TYPE = "FASTA_GZ";
+
+const findFastaFilePath = (genomeFiles: GenomeFileItem[] = []): string | null => {
+  const fastaFile = genomeFiles.find(
+    (fileItem) => fileItem.type === FASTA_FILE_TYPE && fileItem.file?.path
+  );
+
+  return fastaFile?.file?.path ?? null;
+};
+
 const GenomeDetails: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [hasFastaFile, setHasFastaFile] = useState(false);
+  const [fastaFilePath, setFastaFilePath] = useState<string | null>(null);
 
 
   const { id } = useParams<{ id: string }>();
@@ -80,10 +100,20 @@ const GenomeDetails: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const path = findFastaFilePath(genomeResult?.genomeFiles);
+    setHasFastaFile(Boolean(path));
+    setFastaFilePath(path);
+  }, [genomeResult]);
+
   const handleDownloadFasta = () => {
-    const filePath = genomeResult?.filePath;
+    if (!fastaFilePath) {
+      console.error('No FASTA file available for download');
+      return;
+    }
+
     const fileName = `${genomeResult?.accesionId || 'genome'}.fasta`;
-    triggerFileDownload(filePath, fileName);
+    triggerFileDownload(fastaFilePath, fileName);
   };
 
   const handleDownloadGff3 = (annotation: any) => {
@@ -170,7 +200,7 @@ const GenomeDetails: React.FC = () => {
       )}
 
 
-      {genomeResult?.filePath && (
+      {hasFastaFile && (
         <GenomeSection>
           <DownloadTitle>{t("comparative.genomics.genome.details.downloadGenome")}</DownloadTitle>
           <DownloadButtons>

@@ -1,0 +1,184 @@
+{
+    "id": "6e638b6b-6023-4bde-a76d-08350dd09955",
+    "createdAt": "2025-11-09T15:26:45.639111+00:00",
+    "name": "v1",
+    "description": "Genome assembly generated with NGSEP using ONT reads and polished using Illumina reads",
+    "public": true,
+    "accesionId": "GCA_041682335.1",
+    "organism": {
+        "id": "4ba32111-dced-4cf0-9837-3d85dd8321fc",
+        "name": "LL0772",
+        "taxId": "5679",
+        "metadata": {
+            "host": "Homo Sapiens",
+            "collection_date": "2013"
+        },
+        "createdAt": "2025-11-09T15:26:45.638036+00:00",
+        "speciesName": "Leishmania panamensis"
+    },
+    "source": {
+        "id": "7e21c66b-d10d-4418-a634-6df0a1796366",
+        "name": "NCBI"
+    },
+    "annotations": [
+        {
+            "id": "5dbce307-2974-4841-a08b-bdf6bb37b58c",
+            "createdAt": "2025-11-09T15:26:45.640064+00:00",
+            "name": "v1",
+            "description": "Genome annotation generated with Companion120aa5b6-e1ec-4dd1-a34a-51b81fd276c4",
+            "public": null,
+            "primaryAnnotation": null,
+            "files": [
+                {
+                    "id": "be81235c-ec26-4416-a1ab-63e9c683c5b8",
+                    "type": "GFF3",
+                    "file": {
+                        "id": "5eb0e339-d431-412d-9460-7102dd6185fa",
+                        "path": "annotation/5dbce307-2974-4841-a08b-bdf6bb37b58c/ILL0772.sorted.gff3",
+                        "createdAt": "2025-11-09T17:48:59.855362+00:00",
+                        "updatedAt": "2025-11-09T17:48:59.855362+00:00",
+                        "metadata": {
+                            "file_size": 6263630,
+                            "genome_id": "6e638b6b-6023-4bde-a76d-08350dd09955",
+                            "content_type": "application/octet-stream",
+                            "annotation_id": "5dbce307-2974-4841-a08b-bdf6bb37b58c",
+                            "original_filename": "ILL0772.sorted.gff3"
+                        }
+                    }
+                },
+                {
+                    "id": "1989faec-e490-4dd3-bf2f-42360922f896",
+                    "type": "GFF3_SORTED",
+                    "file": {
+                        "id": "ae6a04c0-81be-4bd1-9929-d67187934394",
+                        "path": "annotation/5dbce307-2974-4841-a08b-bdf6bb37b58c/5dbce307-2974-4841-a08b-bdf6bb37b58c.sorted.gff3",
+                        "createdAt": "2025-11-09T17:49:09.281749+00:00",
+                        "updatedAt": "2025-11-09T17:49:09.281749+00:00",
+                        "metadata": {
+                            "file_size": 6263630,
+                            "generated": true,
+                            "genome_id": "6e638b6b-6023-4bde-a76d-08350dd09955",
+                            "organism_id": "4ba32111-dced-4cf0-9837-3d85dd8321fc",
+                            "content_type": "text/plain",
+                            "execution_id": "c26fd2a7-7eaa-4c4f-940d-005fd548ba92",
+                            "annotation_id": "5dbce307-2974-4841-a08b-bdf6bb37b58c",
+                            "original_filename": "5dbce307-2974-4841-a08b-bdf6bb37b58c.sorted.gff3"
+                        }
+                    }
+                },
+                {
+                    "id": "e9bfdb37-2899-4244-8e19-36eefae97a4a",
+                    "type": "GFF3_GZ",
+                    "file": {
+                        "id": "515aa368-fecc-4630-b9b0-75fb930880b7",
+                        "path": "annotation/5dbce307-2974-4841-a08b-bdf6bb37b58c/5dbce307-2974-4841-a08b-bdf6bb37b58c.sorted.gff3.gz",
+                        "createdAt": "2025-11-09T17:49:09.293878+00:00",
+                        "updatedAt": "2025-11-09T17:49:09.293878+00:00",
+                        "metadata": {
+                            "file_size": 723750,
+                            "generated": true,
+                            "genome_id": "6e638b6b-6023-4bde-a76d-08350dd09955",
+                            "organism_id": "4ba32111-dced-4cf0-9837-3d85dd8321fc",
+                            "content_type": "application/gzip",
+                            "execution_id": "c26fd2a7-7eaa-4c4f-940d-005fd548ba92",
+                            "annotation_id": "5dbce307-2974-4841-a08b-bdf6bb37b58c",
+                            "original_filename": "5dbce307-2974-4841-a08b-bdf6bb37b58c.sorted.gff3.gz"
+                        }
+                    }
+                },
+                {
+                    "id": "a75efead-3e90-449a-9ba7-1ea901ab39b0",
+                    "type": "TABIX",
+                    "file": {
+                        "id": "e4e794ca-7641-4037-a445-68708b80827c",
+                        "path": "annotation/5dbce307-2974-4841-a08b-bdf6bb37b58c/5dbce307-2974-4841-a08b-bdf6bb37b58c.sorted.gff3.gz.tbi",
+                        "createdAt": "2025-11-09T17:49:09.300627+00:00",
+                        "updatedAt": "2025-11-09T17:49:09.300627+00:00",
+                        "metadata": {
+                            "file_size": 7285,
+                            "generated": true,
+                            "genome_id": "6e638b6b-6023-4bde-a76d-08350dd09955",
+                            "organism_id": "4ba32111-dced-4cf0-9837-3d85dd8321fc",
+                            "content_type": "application/octet-stream",
+                            "execution_id": "c26fd2a7-7eaa-4c4f-940d-005fd548ba92",
+                            "annotation_id": "5dbce307-2974-4841-a08b-bdf6bb37b58c",
+                            "original_filename": "5dbce307-2974-4841-a08b-bdf6bb37b58c.sorted.gff3.gz.tbi"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "genomeFiles": [
+        {
+            "id": "7d4d3ad8-b976-456b-8f91-ec4e2833974e",
+            "type": "FAI",
+            "file": {
+                "id": "dfe7561f-8971-479c-91fb-60157f2e844e",
+                "path": "4ba32111-dced-4cf0-9837-3d85dd8321fc/genomes/6e638b6b-6023-4bde-a76d-08350dd09955.fa.gz.fai",
+                "createdAt": "2025-11-09T17:51:09.423179+00:00",
+                "updatedAt": "2025-11-09T17:51:09.423179+00:00",
+                "metadata": {
+                    "file_size": 1633,
+                    "generated": true,
+                    "organism_id": "4ba32111-dced-4cf0-9837-3d85dd8321fc",
+                    "content_type": "text/plain",
+                    "execution_id": "8fc45e28-c8db-491d-b92f-8907a37a2e3b",
+                    "original_filename": "6e638b6b-6023-4bde-a76d-08350dd09955.fa.gz.fai"
+                }
+            }
+        },
+        {
+            "id": "3214754a-9527-42d4-b495-c6bab093ec91",
+            "type": "GZI",
+            "file": {
+                "id": "48174ad5-449a-44a6-9419-7b1e8dd10a06",
+                "path": "4ba32111-dced-4cf0-9837-3d85dd8321fc/genomes/6e638b6b-6023-4bde-a76d-08350dd09955.fa.gz.gzi",
+                "createdAt": "2025-11-09T17:51:09.418319+00:00",
+                "updatedAt": "2025-11-09T17:51:09.418319+00:00",
+                "metadata": {
+                    "file_size": 8344,
+                    "generated": true,
+                    "organism_id": "4ba32111-dced-4cf0-9837-3d85dd8321fc",
+                    "content_type": "application/octet-stream",
+                    "execution_id": "8fc45e28-c8db-491d-b92f-8907a37a2e3b",
+                    "original_filename": "6e638b6b-6023-4bde-a76d-08350dd09955.fa.gz.gzi"
+                }
+            }
+        },
+        {
+            "id": "d17853b8-fd66-4980-8c71-8a4191e9c671",
+            "type": "FASTA_GZ",
+            "file": {
+                "id": "b8229730-043f-48f5-b12c-ad4823c4471d",
+                "path": "4ba32111-dced-4cf0-9837-3d85dd8321fc/genomes/6e638b6b-6023-4bde-a76d-08350dd09955.fa.gz",
+                "createdAt": "2025-11-09T17:51:09.411844+00:00",
+                "updatedAt": "2025-11-09T17:51:09.411844+00:00",
+                "metadata": {
+                    "file_size": 8796880,
+                    "generated": true,
+                    "organism_id": "4ba32111-dced-4cf0-9837-3d85dd8321fc",
+                    "content_type": "application/gzip",
+                    "execution_id": "8fc45e28-c8db-491d-b92f-8907a37a2e3b",
+                    "original_filename": "6e638b6b-6023-4bde-a76d-08350dd09955.fa.gz"
+                }
+            }
+        },
+        {
+            "id": "e36a1356-df25-4563-bd7e-d06d327a340b",
+            "type": "FASTA",
+            "file": {
+                "id": "19fa5bb3-c9df-476d-9873-395b9cf25f53",
+                "path": "4ba32111-dced-4cf0-9837-3d85dd8321fc/genomes/LL0772_assignedKin.fa",
+                "createdAt": "2025-11-09T17:50:55.168604+00:00",
+                "updatedAt": "2025-11-09T17:50:55.168604+00:00",
+                "metadata": {
+                    "file_size": 33994064,
+                    "organism_id": "4ba32111-dced-4cf0-9837-3d85dd8321fc",
+                    "content_type": "application/octet-stream",
+                    "original_filename": "LL0772_assignedKin.fa"
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+projectKey=coge-frontend
+serverUrl=http://localhost:10000
+serverVersion=25.10.0.114319
+dashboardUrl=http://localhost:10000/dashboard?id=coge-frontend
+ceTaskId=1dcfec4b-c53b-4079-8582-f995bb9aa7f3
+ceTaskUrl=http://localhost:10000/api/ce/task?id=1dcfec4b-c53b-4079-8582-f995bb9aa7f3
