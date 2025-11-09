@@ -41,21 +41,32 @@ const formatDate = (dateString: string) => {
   });
 };
 
+type FileResource = {
+  path?: string;
+};
+
 type GenomeFileItem = {
   type?: string;
-  file?: {
-    path?: string;
-  };
+  file?: FileResource;
+};
+
+type AnnotationFileItem = {
+  type?: string;
+  file?: FileResource;
 };
 
 const FASTA_FILE_TYPE = "FASTA_GZ";
+const FAI_FILE_TYPE = "FAI";
+const GZI_FILE_TYPE = "GZI";
+const GFF3_GZ_FILE_TYPE = "GFF3_GZ";
 
-const findFastaFilePath = (genomeFiles: GenomeFileItem[] = []): string | null => {
-  const fastaFile = genomeFiles.find(
-    (fileItem) => fileItem.type === FASTA_FILE_TYPE && fileItem.file?.path
-  );
+const findFilePathByType = <T extends { type?: string; file?: { path?: string } }>(
+  files: T[] = [],
+  targetType: string
+): string | null => {
+  const matchedFile = files.find((fileItem) => fileItem.type === targetType && fileItem.file?.path);
 
-  return fastaFile?.file?.path ?? null;
+  return matchedFile?.file?.path ?? null;
 };
 
 const GenomeDetails: React.FC = () => {
@@ -101,7 +112,7 @@ const GenomeDetails: React.FC = () => {
   };
 
   useEffect(() => {
-    const path = findFastaFilePath(genomeResult?.genomeFiles);
+    const path = findFilePathByType<GenomeFileItem>(genomeResult?.genomeFiles, FASTA_FILE_TYPE);
     setHasFastaFile(Boolean(path));
     setFastaFilePath(path);
   }, [genomeResult]);
@@ -124,18 +135,37 @@ const GenomeDetails: React.FC = () => {
 
   const handleVisualizeJBrowser = () => {
     try {
-      const annotations = genomeResult?.annotations?.map((annotation: any) => ({
-        name: annotation.name,
-        filePath: buildFileDownloadUrl(annotation.filePath)
-      })) || [];
+      if (!fastaFilePath) {
+        console.error('No FASTA file available for visualization');
+        return;
+      }
+
+      const faiFilePath = findFilePathByType<GenomeFileItem>(genomeResult?.genomeFiles, FAI_FILE_TYPE);
+      const gziFilePath = findFilePathByType<GenomeFileItem>(genomeResult?.genomeFiles, GZI_FILE_TYPE);
+
+      const annotations =
+        genomeResult?.annotations
+          ?.map((annotation: any) => {
+            const gff3Path = findFilePathByType<AnnotationFileItem>(annotation.files, GFF3_GZ_FILE_TYPE);
+
+            if (!gff3Path) {
+              return null;
+            }
+
+            return {
+              name: annotation.name,
+              filePath: buildFileDownloadUrl(gff3Path)
+            };
+          })
+          .filter((annotationItem: { name: string; filePath: string } | null): annotationItem is { name: string; filePath: string } => Boolean(annotationItem)) || [];
 
       const data = {
         name: genomeResult?.name || 'Ppersica',
         accessionId: genomeResult?.accesionId || 'Ppersica_298_v2.0',
         speciesName: genomeResult?.biosample?.speciesName || 'Prunus persica',
-        fastaFile: buildFileDownloadUrl(genomeResult?.genomeVisualizationFiles.fasta_file_path),
-        faiFile: buildFileDownloadUrl(genomeResult?.genomeVisualizationFiles.fai_file_path),
-        gziFile: buildFileDownloadUrl(genomeResult?.genomeVisualizationFiles.gzi_file_path),
+        fastaFile: buildFileDownloadUrl(fastaFilePath),
+        faiFile: faiFilePath ? buildFileDownloadUrl(faiFilePath) : undefined,
+        gziFile: gziFilePath ? buildFileDownloadUrl(gziFilePath) : undefined,
         annotations: annotations,
       };
 
@@ -187,7 +217,7 @@ const GenomeDetails: React.FC = () => {
         </InfoSection>
       </GenomeInfo>
 
-      {genomeResult?.filePath && (
+      {hasFastaFile && (
         <GenomeSection>
           <DownloadTitle>{t("comparative.genomics.genome.details.genomeBrowser")}</DownloadTitle>
           <DownloadButtons>
