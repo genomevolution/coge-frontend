@@ -127,10 +127,15 @@ const GenomeDetails: React.FC = () => {
     triggerFileDownload(fastaFilePath, fileName);
   };
 
-  const handleDownloadGff3 = (annotation: any) => {
-    const filePath = annotation?.filePath;
-    const fileName = `${genomeResult?.accesionId || 'genome'}_${annotation.name.toLowerCase().replace(' ', '_')}.gff3`;
-    triggerFileDownload(filePath, fileName);
+  const handleDownloadGff3 = (annotationName: string, gff3Path: string | null) => {
+    if (!gff3Path) {
+      console.error(`No GFF3 file available for annotation ${annotationName}`);
+      return;
+    }
+
+    const normalizedAnnotationName = annotationName.toLowerCase().replace(/\s+/g, '_');
+    const fileName = `${genomeResult?.accesionId || 'genome'}_${normalizedAnnotationName}.gff3`;
+    triggerFileDownload(gff3Path, fileName);
   };
 
   const handleVisualizeJBrowser = () => {
@@ -246,21 +251,25 @@ const GenomeDetails: React.FC = () => {
       {genomeResult?.annotations && genomeResult.annotations.length > 0 && (<AnnotationsSection>
         <AnnotationsTitle>{t("comparative.genomics.genome.details.annotations")} ({genomeResult.annotations.length})</AnnotationsTitle>
         <AnnotationsList>
-          {genomeResult.annotations.map((annotation: any, index: number) => (
-            <AnnotationItem key={index}>
-              <AnnotationContent>
-                <AnnotationName>{annotation.name}</AnnotationName>
-                <AnnotationDescription>{annotation.description}</AnnotationDescription>
-              </AnnotationContent>
-              {annotation.filePath && (
-                <AnnotationDownloadButton onClick={() => handleDownloadGff3(annotation)}>
-                  <AnnotationDownloadIcon>
-                    <img src="/download-icon.svg" alt={t("comparative.genomics.download")} />
-                  </AnnotationDownloadIcon>
-                </AnnotationDownloadButton>
-              )}
-            </AnnotationItem>
-          ))}
+          {genomeResult.annotations.map((annotation: any, index: number) => {
+            const gff3Path = findFilePathByType<AnnotationFileItem>(annotation.files, GFF3_GZ_FILE_TYPE);
+
+            return (
+              <AnnotationItem key={index}>
+                <AnnotationContent>
+                  <AnnotationName>{annotation.name}</AnnotationName>
+                  <AnnotationDescription>{annotation.description}</AnnotationDescription>
+                </AnnotationContent>
+                {gff3Path && (
+                  <AnnotationDownloadButton onClick={() => handleDownloadGff3(annotation.name, gff3Path)}>
+                    <AnnotationDownloadIcon>
+                      <img src="/download-icon.svg" alt={t("comparative.genomics.download")} />
+                    </AnnotationDownloadIcon>
+                  </AnnotationDownloadButton>
+                )}
+              </AnnotationItem>
+            );
+          })}
         </AnnotationsList>
       </AnnotationsSection>)}
 
