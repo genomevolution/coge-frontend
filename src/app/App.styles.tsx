@@ -13,3 +13,4 @@ export const MainContent = styled.main`
   padding: 0;
   margin: 0;
 `;
+
