@@ -13,5 +13,13 @@ export default defineConfig({
   build: {
     outDir: 'build',
     sourcemap: true
+  },
+  resolve: {
+    alias: {
+      buffer: 'buffer/'
+    }
+  },
+  optimizeDeps: {
+    include: ['buffer']
   }
 })
